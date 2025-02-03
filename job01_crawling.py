@@ -16,8 +16,6 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from webdriver_manager.chrome import ChromeDriverManager
-# from selenium.common.exceptions import NoSuchElementException
-# from selenium.common.exceptions import StaleElementReferenceException
 import pandas as pd
 import time
 
@@ -66,9 +64,7 @@ for i in range(6,10):           # 2부터 시작
     actions.move_to_element(button).click().perform()           # 마우스 커서로 해당 요소 클릭
 
 
-# for j in range(400):           # 페이지 아래로 이동해서 영화 로딩    130 * 4 = 체인소맨
-#     actions.send_keys(Keys.PAGE_DOWN).perform()
-#     time.sleep(0.05)
+
 
 for i in range(1,501):        # 크롤링 하려는 영화 갯수, 1 ~ 500까지
 
@@ -85,15 +81,15 @@ for i in range(1,501):        # 크롤링 하려는 영화 갯수, 1 ~ 500까지
     movie_btn_xpath = driver.find_element(By.XPATH, '//*[@id="contents"]/div/div/div[3]/div[2]/div[{}]/a/div/div[1]/div[1]/img'.format(i))
     actions = ActionChains(driver)                                  # ActionChains으로 마우스 커서 생성
     actions.move_to_element(movie_btn_xpath).perform()              # 마우스 커서를 생성 후 해당 요소 위로 이동
-    time.sleep(0.1)                                                 # 0.1초 대기
+    time.sleep(0.2)                                                 # 0.1초 대기
     actions.move_to_element(movie_btn_xpath).click().perform()      # 마우스 커서로 해당 요소 클릭
 
     # 페이지 전환 기다리는 시간
-    time.sleep(0.5)
+    time.sleep(1)
 
     # 리뷰 탭으로 이동
     review_btn_xpath = '//*[@id="review"]'
-    time.sleep(0.5)
+    time.sleep(1)
     driver.find_element(By.XPATH, review_btn_xpath).click()
 
     # 페이지 스크롤
@@ -129,9 +125,10 @@ for i in range(1,501):        # 크롤링 하려는 영화 갯수, 1 ~ 500까지
             # 리뷰 내용 추출
             # <div data-v-c94717f0="" class="review-item__contents"><a data-v-c194a962="" data-v-c94717f0="" href="/review/287622" data-component-id="reviewList" class="contents__title"><h5 data-v-c94717f0="" data-v-c194a962="">OST 너무 좋아
             # .find()를 이용해서 특정 택스트를 찾는다
-            review_element = article.find('div', class_='review-item__contents')  # 리뷰 클래스가 있는 div를 찾아 리스트로 만든다
+            review_element = article.find('div', class_='review-item__contents')    # 리뷰 클래스가 있는 div를 찾아 리스트로 만든다
+
             if review_element:
-                review = review_element.find('h5').get_text().strip()  # 실제 리뷰 텍스트 추출
+                review = review_element.find('h5').get_text().strip()               # 실제 리뷰 텍스트 추출
             else:
                 review = 'No review text available'
 
@@ -160,14 +157,18 @@ for i in range(1,501):        # 크롤링 하려는 영화 갯수, 1 ~ 500까지
 
     # 뒤로가기, 홈페이지 설정상 뒤로가도 OTT 선택이 초기화 되지 않는다.
     driver.back()
+    time.sleep(0.5)
 
-    actions.send_keys(Keys.PAGE_DOWN).perform()
-    time.sleep(0.05)
 
-    # if i % 16 == 0:
-    #     category_btn_xpath = '//*[@id="contents"]/div[5]/section[2]/div/div[2]/div[1]/button[1]'
-    #     # actions = ActionChains(driver)  # ActionChains으로 마우스 커서 생성
-    #     driver.find_element(By.XPATH, category_btn_xpath).click()
+    if i % 4 == 0:
+        for j in range(7):  # 페이지 아래로 이동해서 영화 로딩    130 * 4 = 체인소맨
+            actions.send_keys(Keys.ARROW_DOWN).perform()
+            time.sleep(0.05)
+
+    if i % 10 == 0:
+        for j in range(4):  # 페이지 아래로 이동해서 영화 로딩    130 * 4 = 체인소맨
+            actions.send_keys(Keys.ARROW_DOWN).perform()
+            time.sleep(0.05)
 
 
 # 크롤링이 다 끝났을 경우
