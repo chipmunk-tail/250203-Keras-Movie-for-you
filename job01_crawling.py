@@ -66,7 +66,7 @@ for i in range(6,10):           # 2부터 시작
 
 
 
-for i in range(1,501):        # 크롤링 하려는 영화 갯수, 1 ~ 500까지
+for i in range(1,11):        # 크롤링 하려는 영화 갯수, 1 ~ 500까지
 
     # 비어있는 리스트 생성 / 영화 단위로 추가
     movies = []
@@ -153,7 +153,9 @@ for i in range(1,501):        # 크롤링 하려는 영화 갯수, 1 ~ 500까지
     # DataFrame 생성 및 저장
     df_section_movies = pd.DataFrame(movies, columns=['movies'])
     df_section_reviews = pd.DataFrame(reviews, columns=['reviews'])
-    df_movies = pd.concat([df_movies, df_section_movies, df_section_reviews], axis=1, ignore_index=True)
+    df_temp = pd.concat([df_section_movies, df_section_reviews], join='outer', axis=1, ignore_index=True)
+    df_movies = pd.concat([df_movies, df_temp], ignore_index=True)
+
 
     # 뒤로가기, 홈페이지 설정상 뒤로가도 OTT 선택이 초기화 되지 않는다.
     driver.back()
@@ -176,7 +178,6 @@ driver.close()  # close browser
 
 print(df_movies.head())
 df_movies.info()
-print(df_movies['reviews'].value_counts())
 df_movies.to_csv('./crawling_data/movie_review02.csv')
 
 
