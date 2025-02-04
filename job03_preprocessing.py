@@ -4,8 +4,6 @@ import pandas as pd
 from konlpy.tag import Okt
 import re
 
-from job01_crawling import review
-
 df = pd.read_csv('./crawling_data/reviews_kinolights.csv')
 df. info()
 
@@ -17,9 +15,30 @@ okt = Okt()
 print(df.titles[0])
 print(df.reviews[0])
 
-review = re.sub('[^가-힣]', ' ', review)
-print(review)
+cleand_sentences = []
 
-tokened_review = okt.pos(review, stem = True)
-print(tokened_review)
+for review in df.reviews:
+    review = re.sub('[^가-힣]', ' ', review)
+    print(review)
 
+    tokened_review = okt.pos(review, stem=True)
+    print(tokened_review)
+
+    df_token = pd.DataFrame(tokened_review, columns=['word', 'class'])
+    df_token = df_token[(df_token['class'] == 'Noun') |
+                        (df_token['class'] == 'Verb') |
+                        (df_token['class'] == 'Adjective')]
+    print(df_token)
+
+    words = []
+    for word in df_token.word:
+        if 1 < len(word):
+            if word not in stopwords:
+                words.append(word)
+    cleand_sentence = ' '.join(words)
+    cleand_sentences.append(cleand_sentence)
+    print(cleand_sentences)
+
+df.reviews = cleand_sentences
+df.dropna(inplace = True)
+df.to_csv('./crawling_data/cleaned_reviews.csv', index = False)
