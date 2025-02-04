@@ -173,7 +173,7 @@ for i in range(1,451):        # 크롤링 하려는 영화 갯수, 1 ~ 450까지
             actions.send_keys(Keys.ARROW_DOWN).perform()
             time.sleep(0.05)
 
-    if i % 12 == 0:
+    if i % 16 == 0:
         for j in range(3):  # 페이지 아래로 이동해서 영화 로딩    130 * 4 = 체인소맨
             actions.send_keys(Keys.ARROW_DOWN).perform()
             time.sleep(0.05)
