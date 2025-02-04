@@ -1,4 +1,8 @@
+# 250204
+# 나를 위한 자동 영화 추천 프로그램
+# 3. 데이터 정규화
 
+# job02 로 진행
 
 import pandas as pd
 from konlpy.tag import Okt
