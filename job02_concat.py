@@ -5,31 +5,39 @@
 import pandas as pd
 import glob
 
-data_path = glob.glob('./crawling_data/movie_reviews_500_movies/*')
-print(data_path)
+data_paths = glob.glob('./crawling_data/movie_reviews_500_movies/*')
+print(data_paths)
 
 df = pd.DataFrame()
 
-df_temp = pd.read_csv(data_path[0])
-print(df_temp.head())
+for path in data_paths:
 
-titles = []
-reviews = []
-old_title = ''
+    df_temp = pd.read_csv(data_paths[0])
+    print(df_temp.head())
 
-for i in range(len(df_temp)):
+    titles = []
+    reviews = []
+    old_title = ''
 
-    title = df_temp.iloc[i, 0]
-    if title != old_title:
-        titles.append(title)
-        title = old_title
-        df_movie = df_temp[(df_temp.movie_title == title)]
-        review = ''
-        for j in range(len(df_temp)):
-            review = review + df_movie.review
-            # print(review)
-        reviews.append(review)
+    for i in range(len(df_temp)):
 
-print(titles[:5])
-print(reviews[:5])
+        title = df_temp.iloc[i, 0]
+        if title != old_title:
+            titles.append(title)
+            old_title = title
+            df_movie = df_temp[(df_temp.movie_title == title)]
+            review = ' '.join(df_movie.review)
+            reviews.append(review)
 
+    # print(titles[:5])
+    # print(reviews[1])
+    print(len(titles))
+    print(len(reviews))
+    # df_batch = pd.DataFrame(titles, reviews, columns = ['titles', 'reviews'])
+    df_batch = pd.DataFrame({'titles' : titles, 'reviews' : reviews})
+    df_batch.info()
+    print(df_batch)
+    pd.concat([df, df_batch], ignore_index = True)
+
+df.info()
+df.to_csv('./crawling_data/reviews_kinolights.csv', index = False)

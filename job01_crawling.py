@@ -40,11 +40,11 @@ service = ChromeService(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service = service, options = options)
 
 # 노트북용, 버튼이 안보이는 문제가 있음
-# driver.set_window_size(1920, 1080)
+driver.set_window_size(1920, 1080)
 
 
-# 비어있는 데이터 프레임 생성
-df_movies = pd.DataFrame()
+# # 비어있는 데이터 프레임 생성
+# df_movies = pd.DataFrame()
 
 
 # 방문할 URL
@@ -71,7 +71,10 @@ for i in range(6,10):           # 2부터 시작
 
 
 
-for i in range(1,451):        # 크롤링 하려는 영화 갯수, 1 ~ 450까지
+for i in range(1,501):        # 크롤링 하려는 영화 갯수, 1 ~ 450까지
+
+    # 비어있는 데이터 프레임 생성
+    df_movies = pd.DataFrame()
 
     # 비어있는 리스트 생성 / 영화 단위로 추가
     movies = []
@@ -162,6 +165,8 @@ for i in range(1,451):        # 크롤링 하려는 영화 갯수, 1 ~ 450까지
     df_temp = pd.concat([df_section_movies, df_section_reviews], join='outer', axis=1, ignore_index=True)
     df_movies = pd.concat([df_movies, df_temp], ignore_index=True)
 
+    df_movies.to_csv('./crawling_data/movie_review{}.csv'.format(str(i).zfill(3)))
+
 
     # 뒤로가기, 홈페이지 설정상 뒤로가도 OTT 선택이 초기화 되지 않는다.
     driver.back()
@@ -182,9 +187,9 @@ for i in range(1,451):        # 크롤링 하려는 영화 갯수, 1 ~ 450까지
 # 크롤링이 다 끝났을 경우
 driver.close()  # close browser
 
-print(df_movies.head())
-df_movies.info()
-df_movies.to_csv('./crawling_data/movie_review02.csv')
+# print(df_movies.head())
+# df_movies.info()
+# df_movies.to_csv('./crawling_data/movie_review02.csv')
 
 
 
