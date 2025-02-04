@@ -1,7 +1,3 @@
-# 250204
-# 나를 위한 자동 영화 추천 프로그램
-# 2. 크롤링 데이터 합치기
-
 import pandas as pd
 import glob
 
@@ -11,8 +7,8 @@ print(data_paths)
 df = pd.DataFrame()
 
 for path in data_paths:
-
-    df_temp = pd.read_csv(data_paths[0])
+    # 각 파일을 읽어오기
+    df_temp = pd.read_csv(path)
     print(df_temp.head())
 
     titles = []
@@ -20,24 +16,29 @@ for path in data_paths:
     old_title = ''
 
     for i in range(len(df_temp)):
-
         title = df_temp.iloc[i, 0]
+
+        # 제목이 이전 제목과 다르면 제목을 추가
         if title != old_title:
+            title = title.replace('"', '')  # 제목에서 불필요한 따옴표 제거
             titles.append(title)
             old_title = title
-            df_movie = df_temp[(df_temp.movie_title == title)]
+
+            # 같은 제목을 가진 리뷰들을 하나로 합침
+            df_movie = df_temp[df_temp.movie_title == title]
             review = ' '.join(df_movie.review)
             reviews.append(review)
 
-    # print(titles[:5])
-    # print(reviews[1])
     print(len(titles))
     print(len(reviews))
-    # df_batch = pd.DataFrame(titles, reviews, columns = ['titles', 'reviews'])
-    df_batch = pd.DataFrame({'titles' : titles, 'reviews' : reviews})
+
+    # 새로운 데이터프레임 배치 생성
+    df_batch = pd.DataFrame({'titles': titles, 'reviews': reviews})
     df_batch.info()
     print(df_batch)
-    pd.concat([df, df_batch], ignore_index = True)
+
+    # 기존 데이터프레임에 새로운 배치 합치기
+    df = pd.concat([df, df_batch], ignore_index=True)
 
 df.info()
-df.to_csv('./crawling_data/reviews_kinolights.csv', index = False)
+df.to_csv('./crawling_data/reviews_kinolights.csv', index=False)
