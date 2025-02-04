@@ -30,12 +30,17 @@ options.add_argument('lang=ko_KR')
 # options.add_argument('--disable-gpu')       # GPU 비활성화
 # options.add_argument('--no-sandbox')        # 리눅스에서 셀레니움 실행 시 필요할 수 있음
 
-
-# 알림창 안뜨게 하는 코드
+# 알림창 막아준다.
 options.add_experimental_option("prefs", {"profile.default_content_setting_values.notifications": 1})
+
+# 이미지 로딩을 막아준다.
+options.add_argument('--blink-settings=imagesEnabled=false')
 
 service = ChromeService(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service = service, options = options)
+
+# 노트북용, 버튼이 안보이는 문제가 있음
+# driver.set_window_size(1920, 1080)
 
 
 # 비어있는 데이터 프레임 생성
@@ -66,7 +71,7 @@ for i in range(6,10):           # 2부터 시작
 
 
 
-for i in range(1,11):        # 크롤링 하려는 영화 갯수, 1 ~ 500까지
+for i in range(1,451):        # 크롤링 하려는 영화 갯수, 1 ~ 450까지
 
     # 비어있는 리스트 생성 / 영화 단위로 추가
     movies = []
@@ -78,10 +83,11 @@ for i in range(1,11):        # 크롤링 하려는 영화 갯수, 1 ~ 500까지
     # //*[@id="contents"]/div/div/div[3]/div[2]/div[3]/a/div/div[1]/div[1]/img      # 말할 수 없는 비밀
 
     # 영화 선택
+    time.sleep(0.5)                                                 # 0.5초 페이지 로딩
     movie_btn_xpath = driver.find_element(By.XPATH, '//*[@id="contents"]/div/div/div[3]/div[2]/div[{}]/a/div/div[1]/div[1]/img'.format(i))
     actions = ActionChains(driver)                                  # ActionChains으로 마우스 커서 생성
     actions.move_to_element(movie_btn_xpath).perform()              # 마우스 커서를 생성 후 해당 요소 위로 이동
-    time.sleep(0.2)                                                 # 0.1초 대기
+    time.sleep(0.1)                                                 # 0.1초 대기
     actions.move_to_element(movie_btn_xpath).click().perform()      # 마우스 커서로 해당 요소 클릭
 
     # 페이지 전환 기다리는 시간
@@ -167,8 +173,8 @@ for i in range(1,11):        # 크롤링 하려는 영화 갯수, 1 ~ 500까지
             actions.send_keys(Keys.ARROW_DOWN).perform()
             time.sleep(0.05)
 
-    if i % 10 == 0:
-        for j in range(4):  # 페이지 아래로 이동해서 영화 로딩    130 * 4 = 체인소맨
+    if i % 12 == 0:
+        for j in range(3):  # 페이지 아래로 이동해서 영화 로딩    130 * 4 = 체인소맨
             actions.send_keys(Keys.ARROW_DOWN).perform()
             time.sleep(0.05)
 
