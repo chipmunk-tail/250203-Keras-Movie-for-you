@@ -228,6 +228,7 @@ def main():
         if ErrorFlag == 1:
             siteRefresh(OTT_start_num, OTT_range, i)
             ErrorFlag = 0
+    print("crawling_complete!")
 
 
 if __name__ == "__main__":
