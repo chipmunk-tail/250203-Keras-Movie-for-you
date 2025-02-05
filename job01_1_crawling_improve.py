@@ -163,10 +163,18 @@ def crawReviewSave(idx, review_range):
 # 영화 선택 버튼 누르기
 def selectMovie(idx):
     try:
+        movie_idx = idx + 1
+        actions = ActionChains(driver)                              # ActionChains으로 마우스 커서 생성
+
+        # 메뉴 스크롤
+        if movie_idx % 4 == 0:
+            for i in range(7):  # 스크롤 횟수를 정수로 바꾸기 위해 int() 사용
+                actions.send_keys(Keys.ARROW_DOWN).perform()
+                time.sleep(0.05)
+
         # 영화 버튼 누르기
         time.sleep(0.5)  # 0.5초 페이지 로딩
-        movie_btn_xpath = driver.find_element(By.XPATH, '//*[@id="contents"]/div/div/div[3]/div[2]/div[{}]/a/div/div[1]/div[1]/img'.format(idx + 1))
-        actions = ActionChains(driver)                              # ActionChains으로 마우스 커서 생성
+        movie_btn_xpath = driver.find_element(By.XPATH, '//*[@id="contents"]/div/div/div[3]/div[2]/div[{}]/a/div/div[1]/div[1]/img'.format(movie_idx))
         actions.move_to_element(movie_btn_xpath).perform()          # 마우스 커서를 생성 후 해당 요소 위로 이동
         time.sleep(0.1)                                             # 0.1초 대기
         actions.move_to_element(movie_btn_xpath).click().perform()  # 마우스 커서로 해당 요소 클릭
