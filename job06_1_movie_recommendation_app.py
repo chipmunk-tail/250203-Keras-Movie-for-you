@@ -1,6 +1,5 @@
 
 
-
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
@@ -10,8 +9,8 @@ from gensim.models import Word2Vec
 from scipy.io import mmread
 import pickle
 from PyQt5.QtCore import QStringListModel
+from PyQt5.QtCore import Qt
 
-from job06_recommendation import recommendations
 
 from_window = uic.loadUiType('./movie_recommendation.ui')[0]
 
@@ -29,25 +28,27 @@ class Exam(QWidget, from_window):
         self.titles = list(self.df_reviews.titles)
         self.titles.sort()
         # self.cb_title.addItem('Test01')
-        # self.cb_title.addItem('Test01')
         for title in self.titles:
             self.cb_title.addItem(title)
 
         self.cb_title.currentIndexChanged.connect(self.combobox_slot)
 
     def combobox_slot(self):
+        print("debug01")
         title = self.cb_title.currentText()
         print(title)
         recommendation = self.recommendation_by_title(title)
-        self.lbl_recommendation.addText(recommendation)
+        print("debug02")
+        self.lbl_recommendation.setText(recommendation)
+        print("debug03")
 
-    def recommendation_by_title(self):
+
+    def recommendation_by_title(self, title):
         movie_idx = self.df_reviews[self.df_reviews.titles == title].index[0]
         cosine_sim = linear_kernel(self.Tfidf_matrix[movie_idx], self.Tfidf_matrix)
         recommendation = self.getRecommendation(cosine_sim)
         recommendation = '\n'.join(list(recommendation))
         return recommendation
-
 
     def getRecommendation(self, cosine_sim):
         simScore = list(enumerate(cosine_sim[-1]))
@@ -59,6 +60,11 @@ class Exam(QWidget, from_window):
 
 
 if __name__ == '__main__':
+
+    # 노트북 윈도우 배열 문제
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)     # PyQt가 Windows 배율 설정을 감지하고 조절하도록 함
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)        # 아이콘, 그래픽 요소가 흐려지는 문제 해결
+
     app = QApplication(sys.argv)
     mainWindow = Exam()
     mainWindow.show()
