@@ -23,10 +23,4 @@ print(list(embedding_model.wv.index_to_key))
 print(len(embedding_model.wv.index_to_key))
 
 
-
-
-
-
-
-
-
+# 1199 차원, 시각화 하기 위해 차원 수를 줄여야 한다.
