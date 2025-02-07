@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>514</width>
-    <height>517</height>
+    <width>673</width>
+    <height>606</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,20 +38,30 @@
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>60</y>
-     <width>161</width>
-     <height>22</height>
+     <y>50</y>
+     <width>341</width>
+     <height>51</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
    </property>
   </widget>
   <widget class="QLabel" name="lbl_recommendation">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>50</x>
      <y>110</y>
-     <width>391</width>
-     <height>351</height>
+     <width>571</width>
+     <height>441</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
    </property>
    <property name="text">
     <string/>
