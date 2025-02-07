@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>673</width>
+    <width>637</width>
     <height>673</height>
    </rect>
   </property>
@@ -16,8 +16,8 @@
   <widget class="QLabel" name="lbl_title">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>50</y>
+     <x>20</x>
+     <y>20</y>
      <width>231</width>
      <height>41</height>
     </rect>
@@ -37,8 +37,8 @@
   <widget class="QComboBox" name="cb_title">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>50</y>
+     <x>260</x>
+     <y>20</y>
      <width>341</width>
      <height>51</height>
     </rect>
@@ -53,9 +53,9 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>110</y>
-     <width>571</width>
-     <height>531</height>
+     <y>140</y>
+     <width>541</width>
+     <height>501</height>
     </rect>
    </property>
    <property name="font">
@@ -65,6 +65,42 @@
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="le_keyword">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>80</y>
+     <width>461</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>키워드를 입력하세요</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_recommend">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>80</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>추천</string>
    </property>
   </widget>
  </widget>

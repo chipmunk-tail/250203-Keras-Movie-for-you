@@ -34,13 +34,10 @@ class Exam(QWidget, from_window):
         self.cb_title.currentIndexChanged.connect(self.combobox_slot)
 
     def combobox_slot(self):
-        print("debug01")
         title = self.cb_title.currentText()
         print(title)
         recommendation = self.recommendation_by_title(title)
-        print("debug02")
         self.lbl_recommendation.setText(recommendation)
-        print("debug03")
 
 
     def recommendation_by_title(self, title):
